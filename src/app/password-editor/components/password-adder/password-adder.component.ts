@@ -1,29 +1,47 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { PasswordEditorService, UserData } from 'src/app/password-editor.service';
 
 @Component({
   selector: 'app-password-adder',
   templateUrl: './password-adder.component.html',
-  styleUrls: ['./password-adder.component.css']
+  styleUrls: ['./password-adder.component.css'],
+  providers: [PasswordEditorService]
+
 })
 
 
 export class PasswordAdderComponent {
-  form: FormGroup
+  form = new FormGroup({
+    category: new FormControl(''),
+    app: new FormControl(''),
+    username: new FormControl(''),
+    password: new FormControl('')
+  });
 
-  constructor() {
-    this.form = new FormGroup({
-      category: new FormControl(''),
-      app: new FormControl(''),
-      username: new FormControl(''),
-      password: new FormControl('')
-    });
+  constructor(private http: HttpClient, private toastr: ToastrService, private passwordService: PasswordEditorService) {
+  }
+  isFormInvalid(): boolean {
+    return (!this.form.value.username || !this.form.value.password || !this.form.value.app || !this.form.value.category)
   }
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.isFormInvalid()) {
+      this.toastr.warning("Please fill all the fields")
+      return
+    }
 
-    console.log(this.form.value)
+    try {
+      await this.passwordService.passwordAdder(this.form.value as UserData)
+      this.toastr.success(`Password for ${this.form.value.username} was successfully added`)
+      this.form.reset()
+    } catch (error) {
+      this.toastr.error(error as string)
+    }
   }
 
+
+  onDelete() { }
 }
-
