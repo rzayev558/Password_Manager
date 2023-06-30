@@ -10,7 +10,5 @@ import { PasswordEditorService, UserData } from '../password-editor.service';
 export class PasswordEditorComponent {
   userDataList: Array<UserData>
 
-async constructor(private passwordService: PasswordEditorService) {
-  this.userDataList = await passwordService.getUserData()
-}
+
 }

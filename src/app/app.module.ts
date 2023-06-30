@@ -6,16 +6,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { PasswordEditorModule } from './password-editor/password-editor.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    FormsModule,
     HttpClientModule,
     AppRoutingModule,
     PasswordEditorModule

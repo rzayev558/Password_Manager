@@ -11,6 +11,7 @@ export class PasswordEditorService {
 
   constructor(private http: HttpClient, private toastr: ToastrService) {
   }
+  randomUser: any;
 
 
   async passwordAdder(userData: UserData) {
@@ -21,7 +22,7 @@ export class PasswordEditorService {
       throw new Error("Could not save password")
     }
   }
-  async getUserData(): Promise<Array<UserData>> {
+  async getUserData(userData: UserData): Promise<Array<UserData>> {
     try {
       return await firstValueFrom(this.http.get<Array<UserData>>('http://localhost:3000/users'))
     } catch (error) {
@@ -30,12 +31,6 @@ export class PasswordEditorService {
     }
   }
 }
-
-
-
-
-
-
 export interface UserData {
   category: string,
   app: string,
